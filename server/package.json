@@ -1,15 +1,16 @@
 {
-  "name": "server",
+  "name": "mern-stack-app-memories-server",
   "version": "1.0.0",
   "description": "",
+  "author": "Mayur Mule <mayur17111996@gmail.com>",
+  "license": "ISC",
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start:dev": "nodemon index.js",
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "Mayur Mule <mayur17111996@gmail.com>",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

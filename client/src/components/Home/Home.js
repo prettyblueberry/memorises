@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Container, Grow, Grid } from "@material-ui/core";
+import { Container, Grid, Grow } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
-import Posts from "../Posts/Posts";
+import { retrievePosts } from "../../actions/postsActions";
 import Form from "../Form/Form";
-import { getPosts } from "../../actions/posts";
+import Posts from "../Posts/Posts";
 
 const Home = () => {
-  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
+  const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(retrievePosts());
+  }, [currentId, dispatch]);
 
   return (
     <Grow in>

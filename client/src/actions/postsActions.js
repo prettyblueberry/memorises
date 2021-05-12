@@ -1,10 +1,10 @@
 import * as api from "../api";
-import { CREATE, DELETE, FETCH_ALL, UPDATE } from "../constants/actionTypes";
+import { CREATE, DELETE, FETCH_ALL, UPDATE, LIKE } from "../constants/actionTypes";
 
-//Action Creators
-export const getPosts = () => async (dispatch) => {
+// * Action Creators
+export const retrievePosts = () => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts();
+    const { data } = await api.retrievePosts();
 
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (error) {
@@ -46,7 +46,7 @@ export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likePost(id);
 
-    dispatch({ type: "LIKE", payload: data });
+    dispatch({ type: LIKE, payload: data });
   } catch (error) {
     console.log(error);
   }

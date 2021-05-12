@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import decode from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
-import useStyles from "./styles";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { LOGOUT } from "../../constants/actionTypes";
 import memories from "../../images/memories.jpg";
+import useStyles from "./styles";
 
 const Navbar = () => {
   const classes = useStyles();
@@ -14,7 +15,7 @@ const Navbar = () => {
   const location = useLocation();
 
   const logout = () => {
-    dispatch({ type: "LOGOUT" });
+    dispatch({ type: LOGOUT });
     history.push("/");
     setUser(null);
   };
@@ -22,7 +23,11 @@ const Navbar = () => {
   useEffect(() => {
     const token = user?.token;
 
-    // JWT...
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
@@ -44,12 +49,7 @@ const Navbar = () => {
             <Typography className={classes.userName} variant="h6">
               {user.result.name}
             </Typography>
-            <Button
-              variant="contained"
-              className={classes.logout}
-              color="secondary"
-              onClick={logout}
-            >
+            <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>
               Logout
             </Button>
           </div>
