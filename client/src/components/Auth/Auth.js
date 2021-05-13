@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signIn, signUp } from "../../actions/authActions";
-import { AUTH } from "../../constants/actionTypes";
+import { googleSignIn, signIn, signUp } from "../../actions/authActions";
 import Icon from "./icon";
 import Input from "./Input";
 import useStyles from "./styles";
@@ -13,50 +12,45 @@ import useStyles from "./styles";
 const initialState = { firstName: "", lastName: "", email: "", password: "", confirmPassword: "" };
 
 const Auth = () => {
-  const classes = useStyles();
+  const [isSignup, setIsSignup] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [form, setForm] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState(initialState);
-  const [isSignup, setIsSignup] = useState(false);
+  const classes = useStyles();
 
-  const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const switchMode = () => {
+    setForm(initialState);
+    setIsSignup((prevIsSignup) => !prevIsSignup);
+    setShowPassword(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (isSignup) {
-      dispatch(signUp(formData, history));
+      dispatch(signUp(form, history));
     } else {
-      dispatch(signIn(formData, history));
+      dispatch(signIn(form, history));
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const switchMode = () => {
-    setIsSignup((prevIsSignup) => !prevIsSignup);
-    setShowPassword(false);
-  };
-
-  const googleSuccess = async (res) => {
+  const googleSignInSuccess = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
 
     try {
-      dispatch({ type: AUTH, data: { result, token } });
-      history.push("/");
+      dispatch(googleSignIn(result, token, history));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const googleFailure = (error) => {
-    console.log("Google Sign In was unsuccessful. Try Again Later");
-    console.log(error);
-  };
+  const googleSignInError = () => alert("Google Sign In was unsuccessful. Try again later");
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -64,7 +58,9 @@ const Auth = () => {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
+        <Typography component="h1" variant="h5">
+          {isSignup ? "Sign up" : "Sign in"}
+        </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignup && (
@@ -83,7 +79,7 @@ const Auth = () => {
             />
             {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
           </Grid>
-          <Button className={classes.submit} type="submit" fullWidth variant="contained" color="primary">
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
@@ -101,13 +97,13 @@ const Auth = () => {
                 Google Sign In
               </Button>
             )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
+            onSuccess={googleSignInSuccess}
+            onFailure={googleSignInError}
             cookiePolicy="single_host_origin"
           />
           <Grid container justify="flex-end">
             <Grid item>
-              <Button onClick={switchMode}>{isSignup ? "Already have an account? Sign in" : "Don't have an account? Sign up"}</Button>
+              <Button onClick={switchMode}>{isSignup ? "Already have an account? Sign in" : "Don't have an account? Sign Up"}</Button>
             </Grid>
           </Grid>
         </form>

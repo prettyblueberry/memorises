@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import postRoutes from "./routes/postsRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/posts", postRoutes);
-app.use("/user", userRoutes);
+app.use("/auth", authRoutes);
 
 app.use("/", (req, res) => {
   res.send("Memories API is up and running!");

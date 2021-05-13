@@ -2,6 +2,12 @@ import { deepPurple } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
+  [theme.breakpoints.down("sm")]: {
+    appBar: {
+      justifyContent: "center !important",
+      flexWrap: "wrap",
+    },
+  },
   appBar: {
     borderRadius: 15,
     margin: "30px 0",
@@ -21,12 +27,12 @@ export default makeStyles((theme) => ({
   toolbar: {
     display: "flex",
     justifyContent: "flex-end",
-    width: "400px",
+    width: "300px",
   },
   profile: {
     display: "flex",
     justifyContent: "space-between",
-    width: "400px",
+    width: "300px",
   },
   userName: {
     display: "flex",

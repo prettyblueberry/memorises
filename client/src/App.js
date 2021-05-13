@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 
 const App = () => (
   <BrowserRouter>
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" style={{ minWidth: "400px" }}>
       <Navbar />
       <Switch>
         <Route path="/" exact component={Home} />

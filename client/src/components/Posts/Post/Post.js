@@ -7,11 +7,12 @@ import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/postsActions";
+import defaultBg from "../../../assets/default-bg-post.jpg";
 import useStyles from "./styles";
 
-const Post = ({ post, setCurrentId }) => {
-  const classes = useStyles();
+const Post = ({ post, setCurrentPostId }) => {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const Likes = () => {
@@ -39,41 +40,43 @@ const Post = ({ post, setCurrentId }) => {
       </>
     );
   };
+
   return (
     <Card className={classes.card}>
-      <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
-      <div className={classes.overlay}>
-        <Typography variant="h6">{post.name}</Typography>
-        <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
-      </div>
-      {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-        <div className={classes.overlay2}>
-          <Button style={{ color: "white" }} size="small" onClick={() => setCurrentId(post._id)}>
-            <MoreHorizIcon fontSize="default" />
-          </Button>
+      <div>
+        <CardMedia className={classes.media} image={post.selectedFile || defaultBg} title={post.title} />
+        <div className={classes.overlay}>
+          <Typography variant="h6">{post.name}</Typography>
+          <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
         </div>
-      )}
-      <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag} `)}
+        {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+          <div className={classes.overlay2}>
+            <Button onClick={() => setCurrentPostId(post._id)} style={{ color: "white" }} size="small">
+              <MoreHorizIcon fontSize="default" />
+            </Button>
+          </div>
+        )}
+        <div className={classes.details}>
+          <Typography variant="body2" color="textSecondary" component="h2">
+            {post.tags.map((tag) => `#${tag} `)}
+          </Typography>
+        </div>
+        <Typography className={classes.title} gutterBottom variant="h5" component="h2">
+          {post.title}
         </Typography>
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {post.message}
+          </Typography>
+        </CardContent>
       </div>
-      <Typography className={classes.title} variant="h5" gutterBottom>
-        {post.title}
-      </Typography>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {post.message}
-        </Typography>
-      </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
           <Likes />
         </Button>
         {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-          <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))}>
-            <DeleteIcon size="small" />
-            Delete
+          <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
+            <DeleteIcon fontSize="small" /> Delete
           </Button>
         )}
       </CardActions>
