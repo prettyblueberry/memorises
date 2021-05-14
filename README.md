@@ -2,7 +2,7 @@
 
 ## Summary
 
-**_[Memories](https://mern-stack-app-memories.netlify.app/)_** is a simple application for sharing your memories and viewing other user's memories. This application was created as a code-along project while following the MERN stack tutorials by [JavaScript Mastery](https://www.youtube.com/watch?v=ngc9gnGgUdA&list=PL6QREj8te1P7VSwhrMf3D3Xt4V6_SRkhu).\
+**_[Memories](https://mern-stack-app-memories.netlify.app/)_** is a simple application for sharing your memories and viewing other user's memories. This application was created as a code-along project while following the MERN stack tutorials by [JavaScript Mastery](https://www.youtube.com/watch?v=ngc9gnGgUdA&list=PL6QREj8te1P7VSwhrMf3D3Xt4V6_SRkhu). 
 
 <br/>
 
