@@ -1,4 +1,4 @@
-# mern-stack-app-memories
+# memories
 
 ## Summary
 

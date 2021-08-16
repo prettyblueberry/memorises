@@ -1,8 +1,8 @@
 {
-  "name": "mern-stack-app-memories-client",
+  "name": "memories-client",
   "version": "1.0.0",
   "description": "",
-  "author": "Mayur Mule <mayur17111996@gmail.com>",
+  "author": "blueberry",
   "license": "ISC",
   "private": true,
   "proxy": "http://localhost:5000",
